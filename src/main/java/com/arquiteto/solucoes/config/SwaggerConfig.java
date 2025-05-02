@@ -14,11 +14,11 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("API de Lançamentos")
-                        .description("Documentação da API para gerenciamento de lançamentos financeiros.")
+                        .description("Documentação da API para gerenciamento de lançamentos financeiros - Desafio Arquiteto de Soluções")
                         .version("1.0.0")
                         .contact(new Contact()
-                                .name("Equipe de Suporte")
-                                .email("suporte@exemplo.com")
+                                .name("Charles Müller")
+                                .email("charlesmullerti@gmail.com")
                                 .url("https://www.exemplo.com")));
     }
 }
