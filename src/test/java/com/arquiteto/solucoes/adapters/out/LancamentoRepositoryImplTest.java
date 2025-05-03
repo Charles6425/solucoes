@@ -8,7 +8,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.arquiteto.solucoes.domain.Lancamento;
+import com.arquiteto.solucoes.domain.model.Lancamento;
 import com.arquiteto.solucoes.enums.TipoLancamento;
 
 import java.util.ArrayList;

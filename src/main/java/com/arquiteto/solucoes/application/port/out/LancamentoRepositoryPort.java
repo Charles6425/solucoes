@@ -1,6 +1,6 @@
 package com.arquiteto.solucoes.application.port.out;
 
-import com.arquiteto.solucoes.domain.Lancamento;
+import com.arquiteto.solucoes.domain.model.Lancamento;
 
 import java.util.List;
 import java.util.Optional;
