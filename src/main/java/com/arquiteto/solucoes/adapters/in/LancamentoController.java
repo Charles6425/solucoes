@@ -1,6 +1,6 @@
 package com.arquiteto.solucoes.adapters.in;
 
-import com.arquiteto.solucoes.application.LancamentoService;
+import com.arquiteto.solucoes.application.service.LancamentoService;
 import com.arquiteto.solucoes.domain.Lancamento;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
