@@ -1,8 +1,10 @@
-package com.arquiteto.solucoes.domain;
+package com.arquiteto.solucoes.domain.model;
 
 import com.arquiteto.solucoes.enums.TipoLancamento;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.math.BigDecimal;
 
 @Data
 @Entity
@@ -17,7 +19,7 @@ public class Lancamento {
 
     private String data;
 
-    private Double valor;
+    private BigDecimal valor;
 
     @Enumerated(EnumType.STRING)
     private TipoLancamento tipoLancamento;
