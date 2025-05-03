@@ -1,8 +1,7 @@
-package com.arquiteto.solucoes.controller;
+package com.arquiteto.solucoes.adapters.in;
 
-import com.arquiteto.solucoes.model.Lancamento;
-import com.arquiteto.solucoes.service.LancamentoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.arquiteto.solucoes.application.LancamentoService;
+import com.arquiteto.solucoes.domain.Lancamento;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,33 +12,22 @@ import java.util.List;
 @RequestMapping("/api/lancamentos")
 public class LancamentoController {
 
-    @Autowired
-    private LancamentoService service;
+    private final LancamentoService service;
 
-    /**
-     * metodo para criar um lancamento
-     * @param lancamento
-     * @return
-     */
+    public LancamentoController(LancamentoService service) {
+        this.service = service;
+    }
+
     @PostMapping
     public ResponseEntity<Lancamento> create(@RequestBody Lancamento lancamento) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(lancamento));
     }
 
-    /**
-     * metodo para listar todos os lancamentos
-     * @return
-     */
     @GetMapping
     public List<Lancamento> findAll() {
         return service.findAll();
     }
 
-    /**
-     * metodo para listar um lancamento por id
-     * @param id
-     * @return
-     */
     @GetMapping("/{id}")
     public ResponseEntity<Lancamento> findById(@PathVariable Long id) {
         return service.findById(id)
@@ -47,12 +35,6 @@ public class LancamentoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    /**
-     * metodo para atualizar um lancamento
-     * @param id
-     * @param lancamento
-     * @return
-     */
     @PutMapping("/{id}")
     public ResponseEntity<Lancamento> update(@PathVariable Long id, @RequestBody Lancamento lancamento) {
         return service.findById(id).map(l -> {
@@ -61,15 +43,9 @@ public class LancamentoController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    /**
-     * metodo para deletar um lancamento
-     * @param id
-     * @return
-     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 }
-

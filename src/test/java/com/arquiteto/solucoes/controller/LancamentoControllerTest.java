@@ -3,9 +3,10 @@ package com.arquiteto.solucoes.controller;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
+import com.arquiteto.solucoes.adapters.in.LancamentoController;
 import com.arquiteto.solucoes.enums.TipoLancamento;
-import com.arquiteto.solucoes.model.Lancamento;
-import com.arquiteto.solucoes.service.LancamentoService;
+import com.arquiteto.solucoes.domain.Lancamento;
+import com.arquiteto.solucoes.application.LancamentoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
