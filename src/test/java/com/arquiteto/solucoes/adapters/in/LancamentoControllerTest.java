@@ -1,12 +1,11 @@
-package com.arquiteto.solucoes.controller;
+package com.arquiteto.solucoes.adapters.in;
 
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-import com.arquiteto.solucoes.adapters.in.LancamentoController;
-import com.arquiteto.solucoes.enums.TipoLancamento;
-import com.arquiteto.solucoes.domain.Lancamento;
 import com.arquiteto.solucoes.application.LancamentoService;
+import com.arquiteto.solucoes.domain.Lancamento;
+import com.arquiteto.solucoes.enums.TipoLancamento;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
