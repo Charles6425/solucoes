@@ -5,6 +5,7 @@ import com.arquiteto.solucoes.domain.model.SaldoDiario;
 import com.arquiteto.solucoes.domain.model.ports.in.SaldoDiarioServicePort;
 import com.arquiteto.solucoes.domain.model.ports.out.LancamentoConsultaPort;
 import com.arquiteto.solucoes.enums.TipoLancamento;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ public class SaldoDiarioService implements SaldoDiarioServicePort {
     }
 
     @Override
+    @Cacheable("saldosConsolidados")
     public List<SaldoDiario> obterSaldosConsolidados() {
         List<Lancamento> lancamentos = lancamentoConsultaPort.buscarTodos();
 
@@ -33,8 +35,8 @@ public class SaldoDiarioService implements SaldoDiarioServicePort {
                                 l -> l.getTipoLancamento() == TipoLancamento.CREDITO ? l.getValor() : l.getValor().negate(),
                                 BigDecimal::add)))
                 .entrySet().stream()
-//                .map(e -> new SaldoDiario(e.getKey(), e.getValue()))
-                .map(e -> new SaldoDiario(LocalDate.parse(e.getKey()), e.getValue()))
+
+                .map(e -> new SaldoDiario(e.getKey(), e.getValue()))
                 .sorted(Comparator.comparing(SaldoDiario::getData))
                 .collect(Collectors.toList());
     }
