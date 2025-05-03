@@ -1,13 +1,7 @@
 package com.arquiteto.solucoes.application.port.out;
 
 import com.arquiteto.solucoes.domain.Lancamento;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface LancamentoRepository {
-    Lancamento save(Lancamento lancamento);
-    List<Lancamento> findAll();
-    Optional<Lancamento> findById(Long id);
-    void deleteById(Long id);
+public interface LancamentoRepository extends JpaRepository<Lancamento, Long> {
 }

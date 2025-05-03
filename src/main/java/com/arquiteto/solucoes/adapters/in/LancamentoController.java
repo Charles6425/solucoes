@@ -18,16 +18,30 @@ public class LancamentoController {
         this.service = service;
     }
 
+    /**
+     * Cria um novo lançamento.
+     * @param lancamento
+     * @return
+     */
     @PostMapping
     public ResponseEntity<Lancamento> create(@RequestBody Lancamento lancamento) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(lancamento));
     }
 
+    /**
+     * Retorna todos os lançamentos.
+     * @return
+     */
     @GetMapping
     public List<Lancamento> findAll() {
         return service.findAll();
     }
 
+    /**
+     * Retorna um lançamento pelo ID.
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Lancamento> findById(@PathVariable Long id) {
         return service.findById(id)
@@ -35,6 +49,12 @@ public class LancamentoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /**
+     * Atualiza um lançamento.
+     * @param id
+     * @param lancamento
+     * @return
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Lancamento> update(@PathVariable Long id, @RequestBody Lancamento lancamento) {
         return service.findById(id).map(l -> {
@@ -43,6 +63,11 @@ public class LancamentoController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
+    /**
+     * Deleta um lançamento.
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
