@@ -1,4 +1,4 @@
-package com.arquiteto.solucoes.adapters.out;
+package com.arquiteto.solucoes.application;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,20 +26,20 @@ import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ContextConfiguration(classes = {LancamentoRepositoryImpl.class})
+@ContextConfiguration(classes = {LancamentoService.class})
 @ExtendWith(SpringExtension.class)
 @DisabledInAotMode
-class LancamentoRepositoryImplTest {
-    @Autowired
-    private LancamentoRepositoryImpl lancamentoRepositoryImpl;
-
+class LancamentoServiceTest {
     @MockitoBean
-    private com.arquiteto.solucoes.adapters.out.SpringDataLancamentoRepository springDataLancamentoRepository;
+    private com.arquiteto.solucoes.application.port.out.LancamentoRepositoryPort lancamentoRepositoryPort;
+
+    @Autowired
+    private LancamentoService lancamentoService;
 
     /**
-     * Test {@link LancamentoRepositoryImpl#save(Lancamento)}.
+     * Test {@link LancamentoService#save(Lancamento)}.
      * <p>
-     * Method under test: {@link LancamentoRepositoryImpl#save(Lancamento)}
+     * Method under test: {@link LancamentoService#save(Lancamento)}
      */
     @Test
     @DisplayName("Test save(Lancamento)")
@@ -54,7 +54,7 @@ class LancamentoRepositoryImplTest {
         lancamento.setStatus("Status");
         lancamento.setTipoLancamento(TipoLancamento.CREDITO);
         lancamento.setValor(10.0d);
-        when(springDataLancamentoRepository.save(Mockito.<Lancamento>any())).thenReturn(lancamento);
+        when(lancamentoRepositoryPort.save(Mockito.<Lancamento>any())).thenReturn(lancamento);
 
         Lancamento lancamento2 = new Lancamento();
         lancamento2.setData("Data");
@@ -66,37 +66,37 @@ class LancamentoRepositoryImplTest {
         lancamento2.setValor(10.0d);
 
         // Act
-        Lancamento actualSaveResult = lancamentoRepositoryImpl.save(lancamento2);
+        Lancamento actualSaveResult = lancamentoService.save(lancamento2);
 
         // Assert
-        verify(springDataLancamentoRepository).save(isA(Lancamento.class));
+        verify(lancamentoRepositoryPort).save(isA(Lancamento.class));
         assertSame(lancamento, actualSaveResult);
     }
 
     /**
-     * Test {@link LancamentoRepositoryImpl#findAll()}.
+     * Test {@link LancamentoService#findAll()}.
      * <p>
-     * Method under test: {@link LancamentoRepositoryImpl#findAll()}
+     * Method under test: {@link LancamentoService#findAll()}
      */
     @Test
     @DisplayName("Test findAll()")
     @Tag("MaintainedBy")
     void testFindAll() {
         // Arrange
-        when(springDataLancamentoRepository.findAll()).thenReturn(new ArrayList<>());
+        when(lancamentoRepositoryPort.findAll()).thenReturn(new ArrayList<>());
 
         // Act
-        List<Lancamento> actualFindAllResult = lancamentoRepositoryImpl.findAll();
+        List<Lancamento> actualFindAllResult = lancamentoService.findAll();
 
         // Assert
-        verify(springDataLancamentoRepository).findAll();
+        verify(lancamentoRepositoryPort).findAll();
         assertTrue(actualFindAllResult.isEmpty());
     }
 
     /**
-     * Test {@link LancamentoRepositoryImpl#findById(Long)}.
+     * Test {@link LancamentoService#findById(Long)}.
      * <p>
-     * Method under test: {@link LancamentoRepositoryImpl#findById(Long)}
+     * Method under test: {@link LancamentoService#findById(Long)}
      */
     @Test
     @DisplayName("Test findById(Long)")
@@ -112,32 +112,32 @@ class LancamentoRepositoryImplTest {
         lancamento.setTipoLancamento(TipoLancamento.CREDITO);
         lancamento.setValor(10.0d);
         Optional<Lancamento> ofResult = Optional.of(lancamento);
-        when(springDataLancamentoRepository.findById(Mockito.<Long>any())).thenReturn(ofResult);
+        when(lancamentoRepositoryPort.findById(Mockito.<Long>any())).thenReturn(ofResult);
 
         // Act
-        Optional<Lancamento> actualFindByIdResult = lancamentoRepositoryImpl.findById(1L);
+        Optional<Lancamento> actualFindByIdResult = lancamentoService.findById(1L);
 
         // Assert
-        verify(springDataLancamentoRepository).findById(eq(1L));
+        verify(lancamentoRepositoryPort).findById(eq(1L));
         assertSame(ofResult, actualFindByIdResult);
     }
 
     /**
-     * Test {@link LancamentoRepositoryImpl#deleteById(Long)}.
+     * Test {@link LancamentoService#delete(Long)}.
      * <p>
-     * Method under test: {@link LancamentoRepositoryImpl#deleteById(Long)}
+     * Method under test: {@link LancamentoService#delete(Long)}
      */
     @Test
-    @DisplayName("Test deleteById(Long)")
+    @DisplayName("Test delete(Long)")
     @Tag("MaintainedBy")
-    void testDeleteById() {
+    void testDelete() {
         // Arrange
-        doNothing().when(springDataLancamentoRepository).deleteById(Mockito.<Long>any());
+        doNothing().when(lancamentoRepositoryPort).deleteById(Mockito.<Long>any());
 
         // Act
-        lancamentoRepositoryImpl.deleteById(1L);
+        lancamentoService.delete(1L);
 
         // Assert
-        verify(springDataLancamentoRepository).deleteById(eq(1L));
+        verify(lancamentoRepositoryPort).deleteById(eq(1L));
     }
 }

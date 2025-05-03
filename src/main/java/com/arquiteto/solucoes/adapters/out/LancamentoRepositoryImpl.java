@@ -1,34 +1,38 @@
-package com.arquiteto.solucoes.application;
+package com.arquiteto.solucoes.adapters.out;
 
 import com.arquiteto.solucoes.application.port.out.LancamentoRepositoryPort;
 import com.arquiteto.solucoes.domain.Lancamento;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class LancamentoService {
+@Component
+public class LancamentoRepositoryImpl implements LancamentoRepositoryPort {
 
-    private final LancamentoRepositoryPort repository;
+    private final SpringDataLancamentoRepository repository;
 
-    public LancamentoService(LancamentoRepositoryPort repository) {
+    public LancamentoRepositoryImpl(SpringDataLancamentoRepository repository) {
         this.repository = repository;
     }
 
+    @Override
     public Lancamento save(Lancamento lancamento) {
         return repository.save(lancamento);
     }
 
+    @Override
     public List<Lancamento> findAll() {
         return repository.findAll();
     }
 
+    @Override
     public Optional<Lancamento> findById(Long id) {
         return repository.findById(id);
     }
 
-    public void delete(Long id) {
+    @Override
+    public void deleteById(Long id) {
         repository.deleteById(id);
     }
 }
