@@ -3,7 +3,7 @@ package com.arquiteto.solucoes.adapters.in;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-import com.arquiteto.solucoes.application.LancamentoService;
+import com.arquiteto.solucoes.application.service.LancamentoService;
 import com.arquiteto.solucoes.domain.Lancamento;
 import com.arquiteto.solucoes.enums.TipoLancamento;
 import com.fasterxml.jackson.databind.ObjectMapper;

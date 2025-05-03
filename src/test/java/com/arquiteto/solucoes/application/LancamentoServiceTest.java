@@ -8,6 +8,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.arquiteto.solucoes.application.service.LancamentoService;
 import com.arquiteto.solucoes.domain.Lancamento;
 import com.arquiteto.solucoes.enums.TipoLancamento;
 

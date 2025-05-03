@@ -1,4 +1,4 @@
-package com.arquiteto.solucoes.application;
+package com.arquiteto.solucoes.application.service;
 
 import com.arquiteto.solucoes.application.port.out.LancamentoRepositoryPort;
 import com.arquiteto.solucoes.domain.Lancamento;
