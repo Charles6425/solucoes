@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -17,7 +18,7 @@ public class Lancamento {
 
     private String descricao;
 
-    private String data;
+    private LocalDate data;
 
     private BigDecimal valor;
 
