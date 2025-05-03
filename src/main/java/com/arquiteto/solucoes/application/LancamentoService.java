@@ -1,8 +1,7 @@
-package com.arquiteto.solucoes.service;
+package com.arquiteto.solucoes.application;
 
-import com.arquiteto.solucoes.model.Lancamento;
-import com.arquiteto.solucoes.repository.LancamentoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.arquiteto.solucoes.application.port.out.LancamentoRepository;
+import com.arquiteto.solucoes.domain.Lancamento;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +9,12 @@ import java.util.Optional;
 
 @Service
 public class LancamentoService {
-    @Autowired
-    private LancamentoRepository repository;
+
+    private final LancamentoRepository repository;
+
+    public LancamentoService(LancamentoRepository repository) {
+        this.repository = repository;
+    }
 
     public Lancamento save(Lancamento lancamento) {
         return repository.save(lancamento);

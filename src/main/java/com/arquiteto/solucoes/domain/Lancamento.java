@@ -1,18 +1,11 @@
-package com.arquiteto.solucoes.model;
+package com.arquiteto.solucoes.domain;
 
 
 import com.arquiteto.solucoes.enums.TipoLancamento;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
-@Entity
 public class Lancamento {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String descricao;
     private String data;
