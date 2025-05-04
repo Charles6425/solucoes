@@ -1,0 +1,8 @@
+flowchart TD
+    A[Sistema Legado] --> B[Adaptadores para consumo de dados]
+    B --> C[Migração gradual para o novo sistema]
+    C --> D[Desacoplamento via mensageria]
+    D --> E[API Gateway unificado]
+    E --> F[Monitoramento CloudWatch ou Dynatrace]
+    F --> G[Mecanismos adicionais de resiliência e observabilidade]
+    G --> H[Desativação do legado]

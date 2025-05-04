@@ -1,0 +1,32 @@
+graph LR
+    A[Application - Spring Boot]
+    A --> B[Configurações]
+    A --> C[Segurança - JWT]
+    A --> D[Resiliência - Resilience4j]
+
+%% Camada central do domínio
+    A --> E[Domínio]
+    E --> E1[Modelos: Lancamento, SaldoDiario]
+    E --> E2[Regras de negócio]
+
+%% Portas - Interfaces
+    A --> F[Ports]
+    F --> F1[Entrada: Casos de uso]
+    F --> F2[Saída: Integrações]
+
+%% Adapters - Implementações das portas
+    A --> G[Adapters]
+    G --> G1[In: REST Controllers]
+    G --> G2[Out: Repositórios JPA]
+    G --> G3[Out: Integrações Externas - Mensageria - SQS]
+
+%% Fluxo dos testes (externo)
+    A --> H[Testes Unitários e Integração]
+
+%% Conexões
+    F1 --- E2
+    F2 --- G2
+    F2 --- G3
+    G1 --- F1
+    G2 --- F2
+    G3 --- F2
