@@ -1,0 +1,27 @@
+
+graph TD
+    subgraph Legacy_System
+        L1[Legacy Database]
+        L2[Legacy Application]
+    end
+
+    subgraph New_System
+        N1[New Database]
+        N2[New Application]
+        N3[API Gateway]
+        N4[SQS Queue]
+    end
+
+    subgraph Transition_Components
+        T1[Data Migration Service]
+        T2[Integration Adapter]
+    end
+
+    L1 --> T1
+    L2 --> T2
+    T1 --> N1
+    T2 --> N2
+    N2 --> N4
+    N4 --> N3
+    N3 --> N2
+    N3 --> L2

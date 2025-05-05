@@ -2,9 +2,12 @@
 
 Projeto Java com Spring Boot, seguindo o padrão de Arquitetura Hexagonal e utilizando Resilience4j para resiliência. O sistema controla lançamentos financeiros, consolida saldo diário e oferece segurança via JWT.
 
+- Leia também o arquivo DESENHO_DA_SOLUCAO.md, onde mostra o diagrama visual da aplicação.
 - Leia também o arquivo README_ARQUITETURA.md para entender a arquitetura do projeto.
-- Existem também os arquivos DESENHO_DA_SOLUCAO.md e DESENHO_ARQUITETURA_TRANSICAO.md
-  que mostram o desenho da solução e o desenho da arquitetura de transição, respectivamente.
+- Leia também o arquivo README_TRANSICAO.md para entender como seria a transição do sistema legado para o novo sistema.
+- Leia também o arquivo ARQUITETURA_DE_TRANSICAO.mmd para verificar o diagrama visual da arquitetura de transição.
+- Leia também o arquivo README_ARQ_IDEAL_AWS.md para verificar o diagrama do projeto na AWS.
+- Leia também o arquivo ARQUITETURA_IDEAL_AWS.mmd para verificar o diagrama visual do projeto na AWS.
 
 ## ✅ Requisitos
 

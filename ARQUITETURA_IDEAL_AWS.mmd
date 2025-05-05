@@ -1,0 +1,23 @@
+flowchart TD
+    graphTD
+    VPC --> InternetGateway
+    VPC --> RouteTable
+    RouteTable -->|Associates| PublicSubnet1
+    RouteTable -->|Associates| PublicSubnet2
+    VPC --> PublicSubnet1
+    VPC --> PublicSubnet2
+    VPC --> PrivateSubnet1
+    VPC --> PrivateSubnet2
+    PublicSubnet1 --> EC2Instance1
+    PublicSubnet2 --> EC2Instance2
+    PrivateSubnet1 --> RDSInstance
+    PrivateSubnet2 --> RDSInstance
+    VPC --> SecurityGroup
+    EC2Instance1 -->|Uses| SecurityGroup
+    EC2Instance2 -->|Uses| SecurityGroup
+    RDSInstance -->|Uses| SecurityGroup
+    VPC --> SQSQueue
+    EC2Instance1 -->|Sends messages to| SQSQueue
+    EC2Instance2 -->|Receives messages from| SQSQueue
+
+
