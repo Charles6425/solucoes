@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controlador responsável por gerenciar os endpoints relacionados aos saldos diários.
+ */
 @RestController
 @RequestMapping("/api/saldos")
 public class SaldoDiarioController {

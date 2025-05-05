@@ -1,15 +1,15 @@
-# Projeto Spring Boot com Arquitetura Hexagonal
 
-Este projeto implementa um sistema de controle de lançamentos financeiros utilizando **Spring Boot** e seguindo os princípios da **Arquitetura Hexagonal (Ports and Adapters)**.
+# Projeto Spring Boot com Arquitetura Hexagonal e Resiliência
+
+Este projeto implementa um sistema de controle de lançamentos financeiros utilizando **Spring Boot**, seguindo os princípios da **Arquitetura Hexagonal (Ports and Adapters)**. Também incorpora mecanismos de resiliência com **Resilience4j**, garantindo operação contínua mesmo diante de falhas em integrações externas.
 
 ---
 
 ## 🧱 Visão Geral da Arquitetura
 
-A arquitetura hexagonal tem como objetivo isolar o núcleo da aplicação (domínio e regras de negócio) das tecnologias externas (como banco de dados, frameworks, APIs, etc). Isso facilita testes, manutenção e evolução do sistema.
+A **Arquitetura Hexagonal** isola o núcleo da aplicação (domínio e regras de negócio) das tecnologias externas (banco de dados, frameworks, APIs etc.), facilitando testes, manutenção e evolução. A **resiliência** é implementada com padrões como *Circuit Breaker* e *fallback*, assegurando funcionamento mesmo com falhas externas.
 
 ---
-
 
 ## 📦 Estrutura de Pacotes
 
@@ -20,20 +20,16 @@ A arquitetura hexagonal tem como objetivo isolar o núcleo da aplicação (domí
   - **application**
     - `service`: Casos de uso (regras de negócio)
     - `port`: Interfaces de entrada e saída
-      - `out`: Interfaces de saída (repositórios, APIs externas)
-  - **config**: Configurações (Swagger, etc.)
+  - **config**: Configurações gerais (Swagger, etc.)
   - **domain**
     - `model`: Entidades do domínio (*Lancamento*, *SaldoDiario*)
-    - `ports`
-      - `in`: Interfaces de entrada (casos de uso)
-      - `out`: Interfaces de saída (repositórios, APIs externas)
+    - `ports`: Interfaces de entrada e saída
   - **enums**: Tipos como *TipoLancamento*
-  - **security**: Configurações de segurança (JWT)
-    - `config`:
-    - `jwt`: Configurações de autenticação e autorização
-    - `model`: Modelos de autenticação
-    - `service`: Serviços de autenticação
+  - **security**
+    - `config`, `jwt`, `model`, `service`: Componentes de autenticação/autorização
   - `Application.java`: Classe principal
+
+---
 
 ## 🧩 Domínios Funcionais e Capacidades
 
@@ -42,83 +38,142 @@ A arquitetura hexagonal tem como objetivo isolar o núcleo da aplicação (domí
 | Lançamentos Financeiros   | Registrar transações                   |
 | Consolidação Financeira   | Calcular e disponibilizar saldo diário |
 | Segurança e Acesso        | Autenticar e autorizar usuários        |
-| Observabilidade           | Monitorar e gerar alertas              |
-
----
-
-## ✅ Requisitos Funcionais
-
-- Criar, listar, atualizar e excluir lançamentos
-- Consolidar saldo diário com base nos lançamentos
-- Expor APIs REST para consumo externo
-
----
-
-## 📈 Requisitos Não Funcionais
-
-- O serviço de lançamentos deve funcionar mesmo se o serviço de consolidação estiver fora
-- O serviço de consolidação deve suportar até **50 requisições por segundo**, com no máximo **5% de perda**
-- Segurança com JWT
-- Monitoramento com Spring Boot Actuator (ou Prometheus/Grafana)
-- Documentação com Swagger
+| Observabilidade           | Monitoraramento                        |
 
 ---
 
 ## 🔐 Segurança
 
-- Autenticação via JWT
-- Autorização baseada em roles (RBAC)
+- Autenticação via **JWT**
 - Endpoints públicos: `/api/auth/**`, `/swagger-ui/**`, `/h2-console/**`
-- HTTPS recomendado em produção
+- Recomendação de uso de **HTTPS** em produção
 
 ---
 
 ## 🔄 Integração e Comunicação
 
-- REST entre serviços
-- Possibilidade futura de usar mensageria (Kafka/RabbitMQ) para desacoplamento
+- Comunicação via **REST**
+- Suporte futuro a mensageria (**Kafka**, **RabbitMQ**, **SQS**) para desacoplamento
 
 ---
 
-## 🧪 Testes
+## 🔀 Resiliência com Resilience4j
 
-- Testes unitários para serviços de domínio
-- Testes de integração para endpoints REST
-- Testes manuais via Swagger
+A resiliência é garantida com **Resilience4j**, utilizando:
 
----
-
-## 📊 Monitoramento e Observabilidade (Diferencial)
-
-- Spring Boot Actuator para métricas básicas
-- Integração com Prometheus e Grafana (sugestão futura)
+- **Circuit Breaker** com fallback para respostas padrão (ex: saldo zero)
+- Configurações de timeout, tentativas e transições de estado via `application.properties`
+- Suporte a até **50 requisições por segundo** com **menos de 5% de perda**
+- Ajustes no **Tomcat** (threads, accept-count) para suportar carga
 
 ---
 
-## 🔄 Arquitetura de Transição (Diferencial)
+## ✅ Requisitos Funcionais
 
-Caso exista um sistema legado:
-1. Criar adaptadores para consumir dados do legado
-2. Migrar gradualmente os dados para o novo sistema
-3. Desativar o legado após estabilização
+- CRUD de lançamentos financeiros
+- Consolidação de saldo diário
+- Exposição de APIs REST
 
 ---
 
-## 💰 Estimativa de Custos (Diferencial)
+## 📈 Requisitos Não Funcionais
 
-| Item                     | Custo Estimado (mensal) |
-|--------------------------|--------------------------|
-| AWS EC2 (1 instância t3) | ~\$10                    |
-| RDS PostgreSQL (db.t3)   | ~\$15                    |
-| S3 (backups e logs)      | ~\$1                     |
-| Total                    | ~\$26                    |
+- Operação independente entre serviços (ex: lançamentos funcionam sem consolidação)
+- Suporte a alta carga com resiliência
+- Segurança com **JWT**
+- Monitoramento com **Spring Boot Actuator**, **CloudWatch** ou **Dynatrace**
+- Documentação com **Swagger**
+
+---
+
+## 🧪 Testes Unitários
+
+Testes com **JUnit 5** e **Mockito**, incluindo:
+
+- Cálculo de saldo diário e fallback no `ControleLancamentoService`
+- Testes de endpoints (`SaldoDiarioControllerTest`, `AuthController`, `LancamentoController`)
+- Testes de integração para autenticação e lançamentos
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-- Java 17 + Spring Boot
-- Spring Security + JWT
-- Spring Data JPA + H2
-- Swagger (Springdoc OpenAPI)
-- Arquitetura Hexagonal
+- **Java 17**, **Spring Boot**, **Maven**
+- **Spring Security** + **JWT**
+- **Spring Data JPA**, **H2**
+- **Swagger** (Springdoc OpenAPI)
+- **Resilience4j**
+- **JUnit 5**, **Mockito**
+- **Arquitetura Hexagonal**
+- **Spring Boot Actuator**
+
+---
+
+## 🔍 Justificativa das Escolhas Técnicas
+
+- **Arquitetura Hexagonal**: separação de responsabilidades e facilidade de testes
+- **Spring Boot**: agilidade no desenvolvimento
+- **Resilience4j**: robustez contra falhas
+- **Mensageria (SQS)**: escalabilidade e desacoplamento
+- **JUnit 5 + Mockito**: qualidade e segurança na refatoração
+
+---
+
+## 🚀 Evoluções Futuras
+
+- Integração com agentes de IA utilizando Langchain para a geração dinâmica do saldo consolidado.
+- Possibilidade de envio automático do saldo consolidado por email ou integração com outros serviços do cliente.
+- Ampliação dos mecanismos de resiliência e monitoramento para suportar novas integrações.
+- Otimizações na comunicação entre serviços e na arquitetura dos adaptadores.
+
+## 🔄 Arquitetura de Transição (Legado → Novo)
+Caso exista um sistema legado:
+
+1. Criar adaptadores para o sistema legado
+2. Migrar dados gradualmente
+3. Utilizar mensageria para desacoplamento
+4. Integrar API Gateway
+5. Monitorar com CloudWatch/Dynatrace
+6. Adicionar resiliência e observabilidade
+7. Desativar o legado após estabilização
+
+---
+
+## 🔒 Critérios de Segurança para Integração
+
+1. **Autenticação/Autorização**: JWT ou API Keys
+2. **Criptografia**: TLS/SSL (A partir de certificado comprado (produção) ou gerado pelo keytool do Java (para testes locais))
+3. **API Gateway**: controle de acesso
+4. **Firewall/IPs confiáveis**
+5. **Auditoria e Monitoramento**
+6. **Rate Limiting**: Controle do número de requisições
+7. **Validação de Dados**
+
+---
+
+## 💰 Estimativa de Custos
+- ***Valores aproximados baseaando-se na calculadora AWS. O Valor vai variar conforme a migração***
+
+| Item                     | Custo Estimado (mensal) |
+|--------------------------|-------------------------|
+| EC2 (1 instância t3)     | ~\$10                   |
+| RDS PostgreSQL (db.t3)   | ~\$15                   |
+| S3 (backups e logs)      | ~\$1                    |
+| SQS (mensageria)         | ~\$2                    |
+| **Total**                | **~\$28**               |
+
+---
+
+## ⏱️ Cronograma Estimado ***(Implantação inicial)***
+
+| Etapa                                      | Dias |
+|-------------------------------------------|------|
+| Definição de Requisitos e Análise         | 1    |
+| Configuração de Ambiente e Infraestrutura | 1    |
+| API de Lançamentos                        | 2–3  |
+| Consolidação e Resiliência                | 2    |
+| Segurança e Autenticação                  | 1    |
+| Integração e Testes                       | 1–2  |
+| Ajustes Finais e Deploy                   | 1    |
+| **Total Estimado**                        | **8–10 dias** |
+
